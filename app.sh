@@ -2,6 +2,10 @@
 
 dirname="./csv"
 mkdir -p $dirname
-filename="${dirname}/`date +'%Y%m%d%H%M'`.csv"
-echo "Save to $filename"
-curl -s -o $filename -H "User-Agent: CrawlBot; your@mail" https://www.niid.go.jp/niid/images/idwr/sokuho/idwr-2020/202008/2020-08-zensu.csv
+
+url=`curl -H "User-Agent: CrawlBot; your@mail" curl https://www.niid.go.jp/niid/ja/data.html/ | grep "zensu.csv" | awk -F '"' '{print $6}'`
+
+URL="https://www.niid.go.jp${url}"
+
+wget ${URL} -P $dirname
+
