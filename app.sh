@@ -7,5 +7,10 @@ url=`curl -H "User-Agent: CrawlBot; your@mail" curl https://www.niid.go.jp/niid/
 
 URL="https://www.niid.go.jp${url}"
 
+fileName=`echo ${url} | awk -F '/' '{print $8}'`
+
 wget ${URL} -P $dirname
+
+iconv -f SHIFT-JIS -t UTF-8 $dirname/$fileName -o $dirname/$fileName
+
 
