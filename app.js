@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const readline = require('readline');
-const rs = fs.createReadStream('./csv/2020-08-zensu.csv');
+const rs = fs.createReadStream('./csv/2020-09-zensu.csv');
 const rl = readline.createInterface({'input': rs, 'output': {}});
 
 const prefectureDataMap = new Map();
