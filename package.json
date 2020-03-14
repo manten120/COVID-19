@@ -1,0 +1,11 @@
+{
+  "name": "COVID-19",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": "git@github.com:stacru/COVID-19.git",
+  "author": "stacru <hamaw8888@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "yargs": "^15.3.0"
+  }
+}
