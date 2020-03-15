@@ -4,9 +4,7 @@ const fs = require('fs');
 const readline = require('readline');
 const rs = fs.createReadStream('./csv/2020-09-zensu.csv');
 const rl = readline.createInterface({'input': rs, 'output': {}});
-const yargs = require('yargs');
-
-let command = yargs.argv._[0];
+const prompts = require('prompts');
 
 const prefectureDataMap = new Map();
 
@@ -37,22 +35,50 @@ rl.on('line', (lineString)=>{
   prefectureDataMap.set(prefecture, value);
 });
 
-rl.on('close', ()=>{
+rl.on('close', () => {
   prefectureDataMap.delete('報告数・累積報告数、疾病・都道府県別');
   prefectureDataMap.delete('');
 
-  bar();
-  if (command === '総数') {
-    console.log(`全国の新型コロナ感染総数`);
-    searchResult(command);
-  } else if(command === '全国') {
-    console.log(prefectureDataMap);
-  } else if (command) {
-    console.log(`${command}の新型コロナ感染状況`);
-    searchResult(command);
-  } else {
-    console.log(prefectureDataMap);
-  }
-  bar();
+  (async function () {
+    // 入力を待ち受ける内容
+    let questions = {
+      type: "select", // インプットタイプ
+      name: "command", // 変数名
+      message: "＜ 新型コロナ感染状況 ＞",
+      choices: [
+        { title: "都道府県名で検索", value: "search" },
+        { title: "一覧を表示", value: '全国' },
+        { title: "全国の感染者総数を表示", value: "総数" }
+      ]
+    };
+
+    // promptsの起動
+    let response = await prompts(questions);
+    let command = response.command;
+
+    if (command === '総数') {
+      bar();
+      searchResult(command);
+      bar();
+    } else if (command === '全国') {
+      bar();
+      console.log(prefectureDataMap);
+      bar();
+    } else if (command === 'search') {
+      (async function () {
+        let question = {
+          type: "text",
+          name: "command",
+          message: "都道府県名('県'まで入力)："
+        };
+        let response = await prompts(question);
+        command = response.command;
+        bar();
+        console.log(`${command}の新型コロナ感染状況`);
+        searchResult(command);
+        bar();
+      })();
+    }
+  })()
 })
 
