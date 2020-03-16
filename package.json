@@ -6,7 +6,6 @@
   "author": "stacru <hamaw8888@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "prompts": "^2.3.1",
-    "yargs": "^15.3.0"
+    "prompts": "^2.3.1"
   }
 }
