@@ -19,7 +19,7 @@ const ConvertCsvToMap = (lineString, prefectureDataMap) => {
       value.累積 = accumulation;
       prefectureDataMap.set(prefecture, value);
   }
-}
+};
 
 const selectMenu = async function(prefectureDataMap) {
   // 入力を待ち受ける内容
@@ -63,7 +63,7 @@ const selectMenu = async function(prefectureDataMap) {
       selectMenu(prefectureDataMap);
     })();
   }
-}
+};
 
 const bar = () =>{console.log('\n--------------------------------------\n');};
 
@@ -75,7 +75,7 @@ const searchResult = (command, prefectureDataMap) => {
   }
 };
 
-module.exports ={
+module.exports = {
   ConvertCsvToMap,
   selectMenu,
-}
+};
