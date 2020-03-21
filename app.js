@@ -7,12 +7,13 @@ const rl = readline.createInterface({'input': rs, 'output': {}});
 const functions = require('./functions.js');
 
 const prefectureDataMap = new Map();
+let week = [];
 
 rl.on('line', (lineString)=>{
-  functions.ConvertCsvToMap(lineString, prefectureDataMap);
+  functions.ConvertCsvToMap(lineString, prefectureDataMap, week);
 });
 
 rl.on('close', () => {
-  functions.selectMenu(prefectureDataMap);
+  functions.selectMenu(prefectureDataMap, week);
 })
 
