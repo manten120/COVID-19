@@ -1,6 +1,6 @@
 const prompts = require('prompts');
 
-const ConvertCsvToMap = (lineString, prefectureDataMap) => {
+const ConvertCsvToMap = (lineString, prefectureDataMap, week) => {
   const columns = lineString.split(',');
   const prefecture = columns[0];
   const infectedPeople = parseInt(columns[29]);
@@ -18,15 +18,16 @@ const ConvertCsvToMap = (lineString, prefectureDataMap) => {
       value.今週の感染者数 = infectedPeople;
       value.累積 = accumulation;
       prefectureDataMap.set(prefecture, value);
+      week.push(prefecture);
   }
 };
 
-const selectMenu = async function(prefectureDataMap) {
+const selectMenu = async function(prefectureDataMap, week) {
   // 入力を待ち受ける内容
   let questions = {
     type: "select", // インプットタイプ
     name: "command", // 変数名
-    message: "＜ 新型コロナ感染状況 ＞",
+    message: `＜ 新型コロナ感染状況 ＞ ${week[0]}`,
     choices: [
       { title: "都道府県名で検索", value: "検索" },
       { title: "一覧を表示", value: '全国' },
@@ -41,12 +42,12 @@ const selectMenu = async function(prefectureDataMap) {
     bar();
     searchResult(command, prefectureDataMap);
     bar();
-    selectMenu(prefectureDataMap);
+    selectMenu(prefectureDataMap, week);
   } else if (command === '全国') {
     bar();
     console.log(prefectureDataMap);
     bar();
-    selectMenu(prefectureDataMap);
+    selectMenu(prefectureDataMap, week);
   } else if (command === '検索') {
     (async function () {
       let question = {
@@ -60,7 +61,7 @@ const selectMenu = async function(prefectureDataMap) {
       console.log(`${command}の新型コロナ感染状況`);
       searchResult(command, prefectureDataMap);
       bar();
-      selectMenu(prefectureDataMap);
+      selectMenu(prefectureDataMap, week);
     })();
   }
 };
