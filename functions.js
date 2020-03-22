@@ -1,5 +1,9 @@
 const prompts = require('prompts');
 
+const fontColorCyan = '\u001b[36m';
+const fontColorRed = '\u001b[31m';
+const fontColorReset   = '\u001b[0m';
+
 const ConvertCsvToMap = (lineString, prefectureDataMap, week) => {
   const columns = lineString.split(',');
   const prefecture = columns[0];
@@ -27,10 +31,10 @@ const selectMenu = async function(prefectureDataMap, week) {
   let questions = {
     type: "select", // インプットタイプ
     name: "command", // 変数名
-    message: `＜ 新型コロナ感染状況 ＞ ${week[0]}`,
+    message: `\n\n\n${fontColorCyan}＜ 新型コロナ感染状況 ${week[0]} ＞${fontColorReset}\n\n`,
     choices: [
-      { title: "都道府県名で検索", value: "検索" },
-      { title: "一覧を表示", value: '全国' },
+      { title: "都道府県名で検索\n", value: "検索" },
+      { title: "一覧を表示\n", value: '全国' },
       { title: "全国の感染者総数を表示", value: "総数" }
     ]
   };
@@ -53,12 +57,12 @@ const selectMenu = async function(prefectureDataMap, week) {
       let question = {
         type: "text",
         name: "command",
-        message: "都道府県名('県'まで入力)："
+        message: "\n都道府県名('県'まで入力)："
       };
       let response = await prompts(question);
       command = response.command;
       bar();
-      console.log(`${command}の新型コロナ感染状況`);
+      console.log(`${command}の新型コロナ感染状況\n`);
       searchResult(command, prefectureDataMap);
       bar();
       selectMenu(prefectureDataMap, week);
@@ -72,7 +76,7 @@ const bar = () =>{console.log('\n--------------------------------------\n');};
 const searchResult = (command, prefectureDataMap) => {
   const obj = prefectureDataMap.get(command);
   for (let key in obj ){
-    console.log(`${key}: ${obj[key]}`);
+    console.log(`${key}: ${fontColorRed}${obj[key]}${fontColorReset}\n`);
   }
 };
 
