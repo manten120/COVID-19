@@ -46,12 +46,12 @@ const selectMenu = async function(prefectureDataMap, week) {
     bar();
     searchResult(command, prefectureDataMap);
     bar();
-    selectMenu(prefectureDataMap, week);
+    setTimeout(selectMenu, 2000, prefectureDataMap, week)
   } else if (command === '全国') {
     bar();
     console.log(prefectureDataMap);
     bar();
-    selectMenu(prefectureDataMap, week);
+    setTimeout(selectMenu, 5000, prefectureDataMap, week)
   } else if (command === '検索') {
     (async function () {
       let question = {
@@ -65,7 +65,7 @@ const selectMenu = async function(prefectureDataMap, week) {
       console.log(`${command}の新型コロナ感染状況\n`);
       searchResult(command, prefectureDataMap);
       bar();
-      selectMenu(prefectureDataMap, week);
+      setTimeout(selectMenu, 2000, prefectureDataMap, week) 
     })();
   }
 };
@@ -76,7 +76,7 @@ const bar = () =>{console.log('\n--------------------------------------\n');};
 const searchResult = (command, prefectureDataMap) => {
   const obj = prefectureDataMap.get(command);
   for (let key in obj ){
-    console.log(`${key}: ${fontColorRed}${obj[key]}${fontColorReset}\n`);
+    console.log(`${key}: ${fontColorRed}${obj[key]}${fontColorReset}`);
   }
 };
 
