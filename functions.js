@@ -31,7 +31,7 @@ const selectMenu = async function(prefectureDataMap, week) {
   let questions = {
     type: "select", // インプットタイプ
     name: "command", // 変数名
-    message: `\n\n\n${fontColorCyan}＜ 新型コロナ感染状況 ${week[0]} ＞${fontColorReset}\n\n`,
+    message: `\n\n\n＜ ${fontColorRed}新型コロナ感染状況 ${fontColorCyan}${week[0]} ${fontColorReset}＞\n\n`,
     choices: [
       { title: "都道府県名で検索\n", value: "検索" },
       { title: "一覧を表示\n", value: '全国' },
