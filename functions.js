@@ -30,40 +30,40 @@ const selectMenu = async function(prefectureDataMap, week) {
   // 入力を待ち受ける内容
   let questions = {
     type: "select", // インプットタイプ
-    name: "command", // 変数名
+    name: "selected", // 変数名
     message: `\n\n\n＜ ${fontColorRed}新型コロナ感染状況 ${fontColorCyan}${week[0]} ${fontColorReset}＞\n\n`,
     choices: [
       { title: "都道府県名で検索\n", value: "検索" },
-      { title: "一覧を表示\n", value: '全国' },
+      { title: "一覧を表示\n", value: "全国" },
       { title: "全国の感染者総数を表示", value: "総数" }
     ]
   };
   // promptsの起動
   let response = await prompts(questions);
-  let command = response.command;
+  let selected = response.selected;
 
-  if (command === '総数') {
+  if (selected === '総数') {
     bar();
-    searchResult(command, prefectureDataMap);
+    searchResult(selected, prefectureDataMap);
     bar();
     setTimeout(selectMenu, 2000, prefectureDataMap, week)
-  } else if (command === '全国') {
+  } else if (selected === '全国') {
     bar();
     console.log(prefectureDataMap);
     bar();
     setTimeout(selectMenu, 5000, prefectureDataMap, week)
-  } else if (command === '検索') {
+  } else if (selected === '検索') {
     (async function () {
       let question = {
         type: "text",
-        name: "command",
+        name: "prefectureName",
         message: "\n都道府県名('県'まで入力)："
       };
       let response = await prompts(question);
-      command = response.command;
+      prefectureName = response.prefectureName;
       bar();
-      console.log(`${command}の新型コロナ感染状況\n`);
-      searchResult(command, prefectureDataMap);
+      console.log(`${prefectureName}の新型コロナ感染状況\n`);
+      searchResult(prefectureName, prefectureDataMap);
       bar();
       setTimeout(selectMenu, 2000, prefectureDataMap, week) 
     })();
@@ -73,8 +73,9 @@ const selectMenu = async function(prefectureDataMap, week) {
 const bar = () =>{console.log('\n--------------------------------------\n');};
 
 
-const searchResult = (command, prefectureDataMap) => {
-  const obj = prefectureDataMap.get(command);
+const searchResult = (mapKey, prefectureDataMap) => {
+  const obj = prefectureDataMap.get(mapKey);
+
   for (let key in obj ){
     console.log(`${key}: ${fontColorRed}${obj[key]}${fontColorReset}`);
   }
